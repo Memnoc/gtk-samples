@@ -2,6 +2,9 @@
 
 I am gonna use this repo to dump examples of stuff I learn while exploring the GTK interface library
 
+**The command to install GTK on Debain**
+` ~ sudo apt install libgtk-4-dev`
+
 **This is the command from the source code**
 
 ```
