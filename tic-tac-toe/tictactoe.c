@@ -15,7 +15,6 @@ const gchar *highlight_style = ".winning-cell {"
 // Function to highlight the winning cells
 void highlight_winner(GtkWidget *button1, GtkWidget *button2,
                       GtkWidget *button3) {
-  g_print("Highlighting winner!\n"); // Debug print statement
   GtkStyleContext *context1 = gtk_widget_get_style_context(button1);
   GtkStyleContext *context2 = gtk_widget_get_style_context(button2);
   GtkStyleContext *context3 = gtk_widget_get_style_context(button3);
@@ -23,6 +22,17 @@ void highlight_winner(GtkWidget *button1, GtkWidget *button2,
   gtk_style_context_add_class(context1, "winning-cell");
   gtk_style_context_add_class(context2, "winning-cell");
   gtk_style_context_add_class(context3, "winning-cell");
+}
+
+void dehighlight_winner(GtkWidget *button1, GtkWidget *button2,
+                        GtkWidget *button3) {
+  GtkStyleContext *context1 = gtk_widget_get_style_context(button1);
+  GtkStyleContext *context2 = gtk_widget_get_style_context(button2);
+  GtkStyleContext *context3 = gtk_widget_get_style_context(button3);
+
+  gtk_style_context_add_class(context1, "");
+  gtk_style_context_add_class(context2, "");
+  gtk_style_context_add_class(context3, "");
 }
 
 // Function to disable all buttons
@@ -110,74 +120,6 @@ void button_clicked(GtkWidget *widget, gpointer data) {
     }
   }
 }
-// // Callback function for when a button is clicked
-// void button_clicked(GtkWidget *widget, gpointer data) {
-//   GtkWidget *button = GTK_WIDGET(widget);
-//   const gchar *label = gtk_button_get_label(GTK_BUTTON(button));
-//
-//   // Check if the button is empty
-//   if (g_strcmp0(label, "") == 0) {
-//     // Set the button label based on the current player
-//     gchar *player_symbol = (player == 1) ? "X" : "O";
-//     gtk_button_set_label(GTK_BUTTON(button), player_symbol);
-//     player = (player == 1) ? 2 : 1;
-//     moves++;
-//
-//     // Check for a winner
-//     for (int i = 0; i < GRID_SIZE; i++) {
-//       if (g_strcmp0(gtk_button_get_label(GTK_BUTTON(buttons[i][0])),
-//                     player_symbol) == 0 &&
-//           g_strcmp0(gtk_button_get_label(GTK_BUTTON(buttons[i][1])),
-//                     player_symbol) == 0 &&
-//           g_strcmp0(gtk_button_get_label(GTK_BUTTON(buttons[i][2])),
-//                     player_symbol) == 0) {
-//         // Horizontal win
-//         gtk_label_set_text(GTK_LABEL(message_label),
-//                            g_strdup_printf("%s wins!", player_symbol));
-//         return;
-//       }
-//       if (g_strcmp0(gtk_button_get_label(GTK_BUTTON(buttons[0][i])),
-//                     player_symbol) == 0 &&
-//           g_strcmp0(gtk_button_get_label(GTK_BUTTON(buttons[1][i])),
-//                     player_symbol) == 0 &&
-//           g_strcmp0(gtk_button_get_label(GTK_BUTTON(buttons[2][i])),
-//                     player_symbol) == 0) {
-//         // Vertical win
-//         gtk_label_set_text(GTK_LABEL(message_label),
-//                            g_strdup_printf("%s wins!", player_symbol));
-//         return;
-//       }
-//     }
-//     if (g_strcmp0(gtk_button_get_label(GTK_BUTTON(buttons[0][0])),
-//                   player_symbol) == 0 &&
-//         g_strcmp0(gtk_button_get_label(GTK_BUTTON(buttons[1][1])),
-//                   player_symbol) == 0 &&
-//         g_strcmp0(gtk_button_get_label(GTK_BUTTON(buttons[2][2])),
-//                   player_symbol) == 0) {
-//       // Diagonal win (top-left to bottom-right)
-//       gtk_label_set_text(GTK_LABEL(message_label),
-//                          g_strdup_printf("%s wins!", player_symbol));
-//       return;
-//     }
-//     if (g_strcmp0(gtk_button_get_label(GTK_BUTTON(buttons[0][2])),
-//                   player_symbol) == 0 &&
-//         g_strcmp0(gtk_button_get_label(GTK_BUTTON(buttons[1][1])),
-//                   player_symbol) == 0 &&
-//         g_strcmp0(gtk_button_get_label(GTK_BUTTON(buttons[2][0])),
-//                   player_symbol) == 0) {
-//       // Diagonal win (top-right to bottom-left)
-//       gtk_label_set_text(GTK_LABEL(message_label),
-//                          g_strdup_printf("%s wins!", player_symbol));
-//       return;
-//     }
-//
-//     // Check for a draw
-//     if (moves == GRID_SIZE * GRID_SIZE) {
-//       gtk_label_set_text(GTK_LABEL(message_label), "It's a draw!");
-//       return;
-//     }
-//   }
-// }
 
 // Callback function for when the "New Game" button is clicked
 void new_game_clicked(GtkWidget *widget, gpointer data) {
@@ -185,6 +127,7 @@ void new_game_clicked(GtkWidget *widget, gpointer data) {
   for (int i = 0; i < GRID_SIZE; i++) {
     for (int j = 0; j < GRID_SIZE; j++) {
       gtk_button_set_label(GTK_BUTTON(buttons[i][j]), "");
+      dehighlight_winner(buttons[0][0], buttons[1][1], buttons[2][2]);
     }
   }
   gtk_label_set_text(GTK_LABEL(message_label), "");
