@@ -8,7 +8,8 @@ int player = 1;
 int moves = 0;
 
 const gchar *highlight_style = ".winning-cell {"
-                               "   color: green;"
+                               "   background-color: green;"
+                               "   background-image: none;"
                                "}";
 
 // Function to highlight the winning cells
